@@ -26,3 +26,13 @@
 *.exe
 *.out
 *.app
+
+# Swaps
+*.swp
+
+# cscope meta
+src/tags
+cscope*
+
+# Build directory
+build
