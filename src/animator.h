@@ -14,16 +14,18 @@
  */
 
 #include "CMU462/CMU462.h"
-#include "svg.h"
 #include "GL/glew.h"
 #include "CMU462/application.h"
 #include "CMU462/lodepng.h"
 #include "CMU462/osdtext.h"
-#include "character.h"
-#include "timeline.h"
-#include "svg_renderer.h"
-#include "hardware_renderer.h"
+#include "bvh.h"
+//#include "svg_renderer.h"
+//#include "hardware_renderer.h"
+#include "ray.h"
 
+using CMU462::StaticScene::Scene;
+using CMU462::StaticScene::BVHNode;
+using CMU462::StaticScene::BVHAccel;
 using namespace std;
 
 namespace CMU462 {
@@ -37,12 +39,11 @@ namespace CMU462 {
 
       public:
 
-         PathTracer()
-         : showDebugWidgets( true ),
-           followCursor( false ),
-           cursor_moving_element( false )
-         {
-         }
+        PathTracer()
+        : max_ray_depth(4),
+          samplesPerLight (100)
+        {
+        }
 
          // BEGIN interface declaration of base class methods specified in Application.
 
@@ -84,11 +85,6 @@ namespace CMU462 {
          void enter_2D_GL_draw_mode();
          void exit_2D_GL_draw_mode();
 
-         /**
-          * Draw a rigged Character.
-          */
-         void drawCharacter( Character & character );
-
       private:
 
          /* window size */
@@ -96,6 +92,15 @@ namespace CMU462 {
 
          /* cursor position */
          Vector2D cursorPoint;
+         BVHAccel* bvh;                 ///< BVH accelerator aggregate
+         Scene* scene;         ///< current scene
+         int samplesPerLight;
+         int max_ray_depth;
+
+         /**
+          * Trace an ray in the scene.
+          */
+         Spectrum trace_ray(const Ray& ray, bool includeLe);
 
          // Internal event system (Copied from p3!!) //
 

@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 2.8)
 # Application source
 set(APPLICATION_SOURCE
 
+    sampler.cpp
+    bsdf.cpp
     svg.cpp
     png.cpp
     triangulation.cpp

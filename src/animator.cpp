@@ -1,11 +1,15 @@
 #include "animator.h"
+#include "intersection.h"
+#include "bsdf.h"
 
 #include <sstream>
 #include <iostream>
 #include <cstdlib>
 #include <sstream>
 #include <iomanip>
+#include "assert.h"
 
+using namespace CMU462::StaticScene;
 using namespace std;
 
 namespace CMU462
@@ -42,6 +46,120 @@ namespace CMU462
         }
 
         exit_2D_GL_draw_mode();
+    }
+
+    Spectrum PathTracer::trace_ray(const Ray &r, bool includeLe = false) {
+
+        Intersection isect;
+
+        if (!bvh->intersect(r, &isect)) {
+            return Spectrum(0,0,0);
+        }
+
+        Spectrum L_out = includeLe ? isect.bsdf->get_emission() : Spectrum(); // Le
+
+        Vector3D hit_p = r.o + r.d * isect.t;
+        Vector3D hit_n = isect.n;
+
+        // make a coordinate system for a hit point
+        // with N aligned with the Z direction.
+        Matrix3x3 o2w;
+        make_coord_space(o2w, isect.n);
+        Matrix3x3 w2o = o2w.T();
+
+        // w_out points towards the source of the ray (e.g.,
+        // toward the camera if this is a primary ray)
+        Vector3D w_out = w2o * (r.o - hit_p);
+        w_out.normalize();
+
+        for (SceneLight *light : scene->lights) {
+            Vector3D dir_to_light;
+            float dist_to_light;
+            float pdf;
+
+            // no need to take multiple samples from a directional source
+            int num_light_samples = light->is_delta_light() ? 1 : samplesPerLight;
+
+            // integrate light over the hemisphere about the normal
+            double scale = 1.0 / num_light_samples;
+            for (int i=0; i<num_light_samples; i++) {
+                // returns a vector 'dir_to_light' that is a direction from
+                // point hit_p to the point on the light source.  It also returns
+                // the distance from point x to this point on the light source.
+                // (pdf is the probability of randomly selecting the random
+                // sample point on the light source -- more on this in part 2)
+                Spectrum light_L = light->sample_L(hit_p, &dir_to_light,
+                                                   &dist_to_light, &pdf);
+
+                // convert direction into coordinate space of the surface, where
+                // the surface normal is [0 0 1]
+                Vector3D w_in = w2o * dir_to_light;
+
+                // note that computing dot(n,w_in) is simple
+                // in surface coordinates since the normal is [0 0 1]
+                double cos_theta = std::max(0.0, w_in[2]);
+
+                // evaluate surface bsdf
+                Spectrum f = isect.bsdf->f(w_out, w_in);
+
+                // Construct a shadow ray and compute whether the intersected surface is
+                // in shadow and accumulate reflected radiance
+                Vector3D normPush = 0.000 * isect.n;
+                Vector3D hitOrigin = hit_p + EPS_D * dir_to_light + normPush;
+                Ray shadowRay = Ray(hitOrigin, dir_to_light);
+                shadowRay.max_t = dist_to_light;
+                if (!bvh->intersect(shadowRay)) {
+                    L_out += f * light_L * scale * cos_theta * (1.0 / pdf);
+                }
+            }
+        }
+
+        // Check to see if this is the last ray we want to consider
+        if (r.depth == max_ray_depth-1) {
+            return L_out;
+        }
+        // Compute an indirect lighting estimate using pathtracing with Monte Carlo.
+        // Note that Ray objects have a depth field now; you should use this to avoid
+        // traveling down one path forever.
+        Vector3D w_in;
+        float pdf;
+
+        // Get the random w_in with the associated pdf
+        Spectrum f = isect.bsdf->sample_f(w_out, &w_in, &pdf);
+
+        // Convert the hemispherical ray in to world space
+        w_in = o2w * w_in;
+        // The w_in should always be in the same direction as normal
+        // The epsilon is for floating point errors, which can make it negative
+
+        // Get the termination probability based off the illumination
+        float termProb = 1.f - f.illum();
+        termProb = clamp(termProb, 0.0, 1.0);
+
+        // Play Russian Roulette to see if this ends now or not
+        double rVal = double(std::rand()) / RAND_MAX;
+        if (rVal < termProb) {
+            return L_out;
+        }
+        // We beat Russian Roulette; build a ray going in our selected direction
+        Ray indRay = Ray(hit_p + EPS_D * w_in, w_in);
+        indRay.depth = r.depth+1;
+
+        double probMult = 1.0 / (pdf * (1.0 - termProb));
+
+        if (isect.bsdf->is_delta()) {
+            //printf("multiplying by %f\n", dot(w_in, hit_n));
+        }
+        // Build the indirect light by recursively tracing
+        Spectrum traced = trace_ray(indRay, isect.bsdf->is_delta());
+        Spectrum indLight = f * traced * dot(w_in, hit_n) * probMult;
+        assert(indLight.r >= -0.00001);
+        assert(indLight.g >= -0.00001);
+        assert(indLight.b >= -0.00001);
+
+        L_out += indLight;
+
+        return L_out;
     }
 
     /*

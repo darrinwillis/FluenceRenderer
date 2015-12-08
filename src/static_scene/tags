@@ -1,0 +1,26 @@
+!_TAG_FILE_SORTED	2	/0=unsorted, 1=sorted, 2=foldcase/
+CMU462	/home/dwillis/dev/cmu/15662/p3/src/static_scene/primitive.h	/^namespace CMU462 { namespace StaticScene {$/;"	n	language:C++
+CMU462	/home/dwillis/dev/cmu/15662/p3/src/static_scene/sphere.cpp	/^namespace CMU462 { namespace StaticScene {$/;"	n	language:C++	file:
+CMU462	/home/dwillis/dev/cmu/15662/p3/src/static_scene/triangle.cpp	/^namespace CMU462 { namespace StaticScene {$/;"	n	language:C++	file:
+CMU462_STATICSCENE_PRIMITIVE_H	/home/dwillis/dev/cmu/15662/p3/src/static_scene/primitive.h	2;"	d	language:C++
+draw	/home/dwillis/dev/cmu/15662/p3/src/static_scene/primitive.h	/^  virtual void draw(const Color& c) const = 0;$/;"	p	language:C++	class:CMU462::StaticScene::Primitive
+draw	/home/dwillis/dev/cmu/15662/p3/src/static_scene/sphere.cpp	/^void Sphere::draw(const Color& c) const {$/;"	f	language:C++	class:CMU462::StaticScene::Sphere
+draw	/home/dwillis/dev/cmu/15662/p3/src/static_scene/triangle.cpp	/^void Triangle::draw(const Color& c) const {$/;"	f	language:C++	class:CMU462::StaticScene::Triangle
+drawOutline	/home/dwillis/dev/cmu/15662/p3/src/static_scene/primitive.h	/^  virtual void drawOutline(const Color& c) const = 0;$/;"	p	language:C++	class:CMU462::StaticScene::Primitive
+drawOutline	/home/dwillis/dev/cmu/15662/p3/src/static_scene/sphere.cpp	/^void Sphere::drawOutline(const Color& c) const {$/;"	f	language:C++	class:CMU462::StaticScene::Sphere
+drawOutline	/home/dwillis/dev/cmu/15662/p3/src/static_scene/triangle.cpp	/^void Triangle::drawOutline(const Color& c) const {$/;"	f	language:C++	class:CMU462::StaticScene::Triangle
+get_bbox	/home/dwillis/dev/cmu/15662/p3/src/static_scene/primitive.h	/^  virtual BBox get_bbox() const = 0;$/;"	p	language:C++	class:CMU462::StaticScene::Primitive
+get_bbox	/home/dwillis/dev/cmu/15662/p3/src/static_scene/triangle.cpp	/^BBox Triangle::get_bbox() const {$/;"	f	language:C++	class:CMU462::StaticScene::Triangle
+get_bsdf	/home/dwillis/dev/cmu/15662/p3/src/static_scene/primitive.h	/^  virtual BSDF* get_bsdf() const = 0;$/;"	p	language:C++	class:CMU462::StaticScene::Primitive
+intersect	/home/dwillis/dev/cmu/15662/p3/src/static_scene/primitive.h	/^  virtual bool intersect(const Ray& r) const = 0;$/;"	p	language:C++	class:CMU462::StaticScene::Primitive
+intersect	/home/dwillis/dev/cmu/15662/p3/src/static_scene/primitive.h	/^  virtual bool intersect(const Ray& r, Intersection* i) const = 0;$/;"	p	language:C++	class:CMU462::StaticScene::Primitive
+intersect	/home/dwillis/dev/cmu/15662/p3/src/static_scene/sphere.cpp	/^bool Sphere::intersect(const Ray& r) const {$/;"	f	language:C++	class:CMU462::StaticScene::Sphere
+intersect	/home/dwillis/dev/cmu/15662/p3/src/static_scene/sphere.cpp	/^bool Sphere::intersect(const Ray& r, Intersection *i) const {$/;"	f	language:C++	class:CMU462::StaticScene::Sphere
+intersect	/home/dwillis/dev/cmu/15662/p3/src/static_scene/triangle.cpp	/^bool Triangle::intersect(const Ray& r) const {$/;"	f	language:C++	class:CMU462::StaticScene::Triangle
+intersect	/home/dwillis/dev/cmu/15662/p3/src/static_scene/triangle.cpp	/^bool Triangle::intersect(const Ray& r, Intersection *isect) const {$/;"	f	language:C++	class:CMU462::StaticScene::Triangle
+Primitive	/home/dwillis/dev/cmu/15662/p3/src/static_scene/primitive.h	/^class Primitive {$/;"	c	language:C++	namespace:CMU462::StaticScene
+StaticScene	/home/dwillis/dev/cmu/15662/p3/src/static_scene/primitive.h	/^namespace CMU462 { namespace StaticScene {$/;"	n	language:C++	namespace:CMU462
+StaticScene	/home/dwillis/dev/cmu/15662/p3/src/static_scene/sphere.cpp	/^namespace CMU462 { namespace StaticScene {$/;"	n	language:C++	namespace:CMU462	file:
+StaticScene	/home/dwillis/dev/cmu/15662/p3/src/static_scene/triangle.cpp	/^namespace CMU462 { namespace StaticScene {$/;"	n	language:C++	namespace:CMU462	file:
+test	/home/dwillis/dev/cmu/15662/p3/src/static_scene/sphere.cpp	/^bool Sphere::test(const Ray& r, double& t1, double& t2) const {$/;"	f	language:C++	class:CMU462::StaticScene::Sphere
+Triangle	/home/dwillis/dev/cmu/15662/p3/src/static_scene/triangle.cpp	/^Triangle::Triangle(const Mesh* mesh, size_t v1, size_t v2, size_t v3) :$/;"	f	language:C++	class:CMU462::StaticScene::Triangle

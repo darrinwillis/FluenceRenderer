@@ -7,7 +7,6 @@
 
 #include "CMU462/CMU462.h"
 #include "CMU462/viewer.h"
-#include "character.h"
 
 
 using namespace std;
