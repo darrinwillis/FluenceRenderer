@@ -29,15 +29,15 @@ using namespace std;
 namespace CMU462 {
 
    /**
-    * The Animator class allows for the editing and playback of animations
+    * The PathTracer class allows for the editing and playback of animations
     * involving characters defined according to the strict specifications of the
     * CMU462 character svg format.
     */
-   class Animator : public Application {
+   class PathTracer : public Application {
 
       public:
 
-         Animator()
+         PathTracer()
          : showDebugWidgets( true ),
            followCursor( false ),
            cursor_moving_element( false )

@@ -8,31 +8,25 @@
 
 using namespace std;
 
-// Purely for the purpose of simulation, this number specifies how
-// long a logical animation frame is in metric seconds; it may or
-// may not actually correspond to the animation playback rate.
-const double simulationFramesPerSecond = 60.;
-const double simulationTimestep = 1. / simulationFramesPerSecond;
-
 namespace CMU462
 {
 
-   string Animator::name() {
-      return "CMU 15-462 Animator";
+   string PathTracer::name() {
+      return "CMU 15-462 PathTracer";
    }
 
-   string Animator::info() {
+   string PathTracer::info() {
       return "";
    }
 
-   void Animator::init() {
+   void PathTracer::init() {
       text_drawer.init(use_hdpi);
       b_HUD = true;
       cursor_moving_element = false;
    }
 
     // The root of all drawing calls in this project.
-    void Animator::render()
+    void PathTracer::render()
     {
         enter_2D_GL_draw_mode();
         // TODO TODO
@@ -51,7 +45,7 @@ namespace CMU462
     }
 
     /*
-   void Animator::render_frames()
+   void PathTracer::render_frames()
    {
       // allocate frame memory
       uint32_t* frame_out = new uint32_t[width * height];
@@ -134,7 +128,7 @@ namespace CMU462
    }
 */
 
-   void Animator::resize( size_t width, size_t height ) {
+   void PathTracer::resize( size_t width, size_t height ) {
 
       this->width  = width;
       this->height = height;
@@ -142,7 +136,7 @@ namespace CMU462
       text_drawer.resize(width, height);
    }
 
-   void Animator::keyboard_event( int key, int event, unsigned char mods  )
+   void PathTracer::keyboard_event( int key, int event, unsigned char mods  )
    {
       // Handle arrow keys to move around timeline.
       if( event == EVENT_PRESS || event == EVENT_REPEAT )
@@ -194,7 +188,7 @@ namespace CMU462
 
    }
 
-   void Animator::cursor_event( float x, float y)
+   void PathTracer::cursor_event( float x, float y)
    {
       cursorPoint = Vector2D( x, y );
    }
@@ -203,7 +197,7 @@ namespace CMU462
    //         We should probably put this function in the standard library.
    //         I think that we should inherit mouse_pressed(), released() etc
    //         from the base class.
-   void Animator::mouse_event(int key, int event, unsigned char mods)
+   void PathTracer::mouse_event(int key, int event, unsigned char mods)
    {
       switch(event)
       {
@@ -238,7 +232,7 @@ namespace CMU462
       }
    }
 
-   void Animator::mouse_pressed( e_mouse_button b )
+   void PathTracer::mouse_pressed( e_mouse_button b )
    {
       switch( b )
       {
@@ -251,7 +245,7 @@ namespace CMU462
       }
    }
 
-   void Animator::mouse_released( e_mouse_button b )
+   void PathTracer::mouse_released( e_mouse_button b )
    {
       switch( b )
       {
@@ -264,7 +258,7 @@ namespace CMU462
       }
    }
 
-   void Animator::scroll_event( float offset_x, float offset_y )
+   void PathTracer::scroll_event( float offset_x, float offset_y )
    {
       if (offset_x || offset_y)
       {
@@ -274,7 +268,7 @@ namespace CMU462
 
    // ====== DRAWING ========
 
-   void Animator::enter_2D_GL_draw_mode()
+   void PathTracer::enter_2D_GL_draw_mode()
    {
       // FIXME: Double check these they might need to be screen space, instead of window space.
       int screen_w = width;
@@ -295,7 +289,7 @@ namespace CMU462
       //  glDisable(GL_DEPTH_TEST);
    }
 
-   void Animator::exit_2D_GL_draw_mode()
+   void PathTracer::exit_2D_GL_draw_mode()
    {
       glMatrixMode( GL_PROJECTION );
       glPopMatrix();
@@ -307,7 +301,7 @@ namespace CMU462
 
    // -- TEXT Drawing for the HUD.
 
-   void Animator::drawHUD()
+   void PathTracer::drawHUD()
    {
       text_drawer.clear();
 
@@ -338,7 +332,7 @@ namespace CMU462
       text_drawer.render();
    }
 
-   inline void Animator::drawString( float x, float y, string str, size_t size, Color c )
+   inline void PathTracer::drawString( float x, float y, string str, size_t size, Color c )
    {
       text_drawer.add_line( ( x*2/width)  - 1.0,
                             (-y*2/height) + 1.0,

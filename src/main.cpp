@@ -13,14 +13,14 @@
 using namespace std;
 using namespace CMU462;
 
-#define msg(s) cerr << "[Animator] " << s << endl;
+#define msg(s) cerr << "[PathTracer] " << s << endl;
 
-int loadFile( Animator * editor, const char* path ) {
+int loadFile( PathTracer * editor, const char* path ) {
 
   return 0;
 }
 
-int loadDirectory( Animator * drawsvg, const char* path ) {
+int loadDirectory( PathTracer * drawsvg, const char* path ) {
 
   DIR *dir = opendir (path);
   if(dir) {
@@ -35,7 +35,7 @@ int loadDirectory( Animator * drawsvg, const char* path ) {
       string filename = ent->d_name;
       string filesufx = filename.substr(filename.find_last_of(".") + 1);
       if (filesufx == "svg" ) {
-        cerr << "[Animator] Loading " << filename << "... ";
+        cerr << "[PathTracer] Loading " << filename << "... ";
         if (loadFile(drawsvg, (pathname + filename).c_str()) < 0) {
           cerr << "Failed (Invalid SVG file)" << endl;
         } else {
@@ -60,7 +60,7 @@ int loadDirectory( Animator * drawsvg, const char* path ) {
   return -1;
 }
 
-int loadPath( Animator * editor, const char* path) {
+int loadPath( PathTracer * editor, const char* path) {
 
   struct stat st;
 
@@ -90,7 +90,7 @@ int main( int argc, char** argv ) {
   Viewer viewer = Viewer();
 
   // create the animation editor.
-  Animator * animation_editor = new Animator();
+  PathTracer * animation_editor = new PathTracer();
 
   // set the animation to be the application.
   viewer.set_application(animation_editor);
