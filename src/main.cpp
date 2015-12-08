@@ -17,17 +17,6 @@ using namespace CMU462;
 
 int loadFile( Animator * editor, const char* path ) {
 
-  SVG* svg = new SVG();
-
-  if( SVGParser::load( path, svg ) < 0) {
-    delete svg;
-    return -1;
-  }
-
-  // Have the editor create a new character from this svg file.
-  editor -> parseNewCharacter(svg);
-  delete svg;
-
   return 0;
 }
 
