@@ -9,7 +9,7 @@ set(APPLICATION_SOURCE
     png.cpp
     triangulation.cpp
     texture.cpp
-    animator.cpp
+    pathtracer.cpp
     character.cpp
     timeline.cpp
     hardware_renderer.cpp

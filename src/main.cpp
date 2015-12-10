@@ -1,4 +1,4 @@
-#include "animator.h"
+#include "pathtracer.h"
 
 #include <sys/stat.h>
 #include <dirent.h>

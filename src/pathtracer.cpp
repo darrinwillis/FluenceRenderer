@@ -1,4 +1,4 @@
-#include "animator.h"
+#include "pathtracer.h"
 #include "intersection.h"
 #include "bsdf.h"
 
