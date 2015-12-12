@@ -6,6 +6,7 @@
 
 namespace CMU462 { namespace StaticScene {
 
+    /*
 // Directional Light //
 
 DirectionalLight::DirectionalLight(const Spectrum& rad,
@@ -40,22 +41,24 @@ Spectrum InfiniteHemisphereLight::sample_L(const Vector3D& p, Vector3D* wi,
   *pdf = 1.0 / (2.0 * M_PI);
   return radiance;
 }
+    */
 
 // Point Light //
 
-PointLight::PointLight(const Spectrum& rad, const Vector3D& pos) : 
+PointLight::PointLight(const Spectrum& rad, const Vector2D& pos) : 
   radiance(rad), position(pos) { }
 
-Spectrum PointLight::sample_L(const Vector3D& p, Vector3D* wi,
+Spectrum PointLight::sample_L(const Vector2D& p, Vector2D* wi,
                              float* distToLight,
                              float* pdf) const {
-  Vector3D d = position - p;
+  Vector2D d = position - p;
   *wi = d.unit();
   *distToLight = d.norm();
   *pdf = 1.0;
   return radiance;
 }
 
+    /*
 // Spot Light //
 
 SpotLight::SpotLight(const Spectrum& rad, const Vector3D& pos,
@@ -113,6 +116,7 @@ Spectrum MeshLight::sample_L(const Vector3D& p, Vector3D* wi,
                              float* distToLight, float* pdf) const {
   return Spectrum();
 }
+    */
 
 } // namespace StaticScene
 } // namespace CMU462

@@ -2,6 +2,7 @@
 #define CMU462_VECTOR3D_H
 
 #include "CMU462.h"
+#include "vector2D.h"
 
 #include <ostream>
 #include <cmath>
@@ -129,6 +130,11 @@ class Vector3D {
   inline void normalize( void ) {
     (*this) /= norm();
   }
+
+  /**
+   * Converts this vector to a 2D vector, ignoring the z component
+   */
+  Vector2D to2D();
 
 }; // class Vector3D
 

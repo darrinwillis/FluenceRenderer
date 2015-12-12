@@ -7,4 +7,8 @@ namespace CMU462 {
     return os;
   }
 
+  Vector2D Vector3D::to2D() {
+      return Vector2D(x, y);
+  }
+
 } // namespace CMU462

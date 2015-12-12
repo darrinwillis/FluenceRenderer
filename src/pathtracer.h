@@ -100,7 +100,7 @@ namespace CMU462 {
          /**
           * Trace an ray in the scene.
           */
-         Spectrum trace_ray(const Ray& ray, bool includeLe);
+         Vector2D trace_ray(const Ray& ray);
 
          // Internal event system (Copied from p3!!) //
 

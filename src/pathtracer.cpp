@@ -9,6 +9,8 @@
 #include <iomanip>
 #include "assert.h"
 
+#include "static_scene/light.h"
+
 using namespace CMU462::StaticScene;
 using namespace std;
 
@@ -33,6 +35,9 @@ namespace CMU462
     void PathTracer::render()
     {
         enter_2D_GL_draw_mode();
+
+        // For now, let's assume 1 light source
+        PointLight light(Spectrum(5.f, 5.f, 5.f), Vector2D(0.0, 0.0));
         // TODO TODO
         // Iterate over all light sources
             // For source sample n rays
@@ -48,32 +53,35 @@ namespace CMU462
         exit_2D_GL_draw_mode();
     }
 
-    Spectrum PathTracer::trace_ray(const Ray &r, bool includeLe = false) {
+    // Returns the intersection point of this ray
+    Vector2D PathTracer::trace_ray(const Ray &r) {
 
         Intersection isect;
 
         if (!bvh->intersect(r, &isect)) {
-            return Spectrum(0,0,0);
+            // TODO: Do a BBox intersection with this window
+            return Vector2D(0.0, 0.0);
         }
 
-        Spectrum L_out = includeLe ? isect.bsdf->get_emission() : Spectrum(); // Le
-
-        Vector3D hit_p = r.o + r.d * isect.t;
-        Vector3D hit_n = isect.n;
+        Vector2D hit_p = r.o + r.d * isect.t;
+        Vector2D hit_n = isect.n;
 
         // make a coordinate system for a hit point
         // with N aligned with the Z direction.
-        Matrix3x3 o2w;
+        Matrix2x2 o2w;
         make_coord_space(o2w, isect.n);
-        Matrix3x3 w2o = o2w.T();
+        Matrix2x2 w2o = o2w.T();
 
+        return Vector2D(0.0, 0.0);
+
+        /*
         // w_out points towards the source of the ray (e.g.,
         // toward the camera if this is a primary ray)
-        Vector3D w_out = w2o * (r.o - hit_p);
+        Vector2D w_out = w2o * (r.o - hit_p);
         w_out.normalize();
 
         for (SceneLight *light : scene->lights) {
-            Vector3D dir_to_light;
+            Vector2D dir_to_light;
             float dist_to_light;
             float pdf;
 
@@ -93,19 +101,19 @@ namespace CMU462
 
                 // convert direction into coordinate space of the surface, where
                 // the surface normal is [0 0 1]
-                Vector3D w_in = w2o * dir_to_light;
+                Vector2D w_in = w2o * dir_to_light;
 
                 // note that computing dot(n,w_in) is simple
                 // in surface coordinates since the normal is [0 0 1]
-                double cos_theta = std::max(0.0, w_in[2]);
+                double cos_theta = std::max(0.0, w_in.y);
 
                 // evaluate surface bsdf
                 Spectrum f = isect.bsdf->f(w_out, w_in);
 
                 // Construct a shadow ray and compute whether the intersected surface is
                 // in shadow and accumulate reflected radiance
-                Vector3D normPush = 0.000 * isect.n;
-                Vector3D hitOrigin = hit_p + EPS_D * dir_to_light + normPush;
+                Vector2D normPush = 0.000 * isect.n;
+                Vector2D hitOrigin = hit_p + EPS_D * dir_to_light + normPush;
                 Ray shadowRay = Ray(hitOrigin, dir_to_light);
                 shadowRay.max_t = dist_to_light;
                 if (!bvh->intersect(shadowRay)) {
@@ -114,14 +122,10 @@ namespace CMU462
             }
         }
 
-        // Check to see if this is the last ray we want to consider
-        if (r.depth == max_ray_depth-1) {
-            return L_out;
-        }
         // Compute an indirect lighting estimate using pathtracing with Monte Carlo.
         // Note that Ray objects have a depth field now; you should use this to avoid
         // traveling down one path forever.
-        Vector3D w_in;
+        Vector2D w_in;
         float pdf;
 
         // Get the random w_in with the associated pdf
@@ -160,6 +164,7 @@ namespace CMU462
         L_out += indLight;
 
         return L_out;
+        */
     }
 
     /*

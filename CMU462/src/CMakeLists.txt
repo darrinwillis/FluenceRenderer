@@ -7,6 +7,7 @@ set(CMU462_SOURCE
     vector2D.cpp
     vector3D.cpp
     vector4D.cpp
+    matrix2x2.cpp
     matrix3x3.cpp
     matrix4x4.cpp
     quaternion.cpp

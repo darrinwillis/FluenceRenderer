@@ -35,6 +35,16 @@ class Vector2D {
    */
   Vector2D( const Vector2D& v ) : x( v.x ), y( v.y ) { }
 
+  // returns reference to the specified component (0-based indexing: x, y)
+  inline double& operator[] ( const int& index ) {
+    return ( &x )[ index ];
+  }
+
+  // returns const reference to the specified component (0-based indexing: x, y)
+  inline const double& operator[] ( const int& index ) const {
+    return ( &x )[ index ];
+  }
+
   // additive inverse
   inline Vector2D operator-( void ) const {
     return Vector2D( -x, -y );
@@ -66,6 +76,10 @@ class Vector2D {
     Vector2D vr = *this;
     vr /= r;
     return vr;
+  }
+
+  inline bool operator==( const Vector2D& v) const {
+    return v.x == x && v.y == y;
   }
 
   // add v
@@ -111,6 +125,13 @@ class Vector2D {
    */
   inline Vector2D unit( void ) const {
     return *this / this->norm();
+  }
+
+  /**
+   * Divides by Euclidean length.
+   */
+  inline void normalize( void ) {
+      (*this) /= norm();
   }
 
 

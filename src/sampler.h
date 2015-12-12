@@ -54,6 +54,17 @@ class UniformGridSampler2D : public Sampler2D {
 
 }; // class UniformSampler2D
 
+
+/**
+ * A Sampler2D implementation with uniform distribution on unit circle
+ */
+class UniformSemiCircleSampler2D : public Sampler2D {
+ public:
+  
+  Vector2D get_sample() const;
+
+}; // class UniformCircleSampler2D
+
 /**
  * A Sampler3D implementation with uniform distribution on unit hemisphere
  */

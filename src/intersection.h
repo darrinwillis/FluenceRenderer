@@ -25,7 +25,7 @@ struct Intersection {
 
   const Primitive* primitive;  ///< the primitive intersected
 
-  Vector3D n;  ///< normal at point of intersection
+  Vector2D n;  ///< normal at point of intersection
 
   BSDF* bsdf; ///< BSDF of the surface at point of intersection
 

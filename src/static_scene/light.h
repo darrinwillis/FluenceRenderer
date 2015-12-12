@@ -5,15 +5,15 @@
 #include "CMU462/matrix3x3.h"
 #include "CMU462/spectrum.h"
 #include "../sampler.h" // UniformHemisphereSampler3D, UniformGridSampler2D
-#include "../image.h"   // HDRImageBuffer
 
 #include "scene.h"  // SceneLight
-#include "object.h" // Mesh, SphereObject
+//#include "object.h" // Mesh, SphereObject
 
 namespace CMU462 { namespace StaticScene {
 
 // Directional Light //
 
+    /*
 class DirectionalLight : public SceneLight {
  public:
   DirectionalLight(const Spectrum& rad, const Vector3D& lightDir);
@@ -26,41 +26,27 @@ class DirectionalLight : public SceneLight {
   Vector3D dirToLight;
 
 }; // class Directional Light
-
-// Infinite Hemisphere Light //
-
-class InfiniteHemisphereLight : public SceneLight {
- public:
-  InfiniteHemisphereLight(const Spectrum& rad);
-  Spectrum sample_L(const Vector3D& p, Vector3D* wi, float* distToLight,
-                    float* pdf) const;
-  bool is_delta_light() const { return false; }
-
- private:
-  Spectrum radiance;
-  Matrix3x3 sampleToWorld;
-  UniformHemisphereSampler3D sampler;
-
-}; // class InfiniteHemisphereLight
+*/
 
 
 // Point Light //
 
 class PointLight : public SceneLight {
  public: 
-  PointLight(const Spectrum& rad, const Vector3D& pos);
-  Spectrum sample_L(const Vector3D& p, Vector3D* wi, float* distToLight,
+  PointLight(const Spectrum& rad, const Vector2D& pos);
+  Spectrum sample_L(const Vector2D& p, Vector2D* wi, float* distToLight,
                     float* pdf) const;
   bool is_delta_light() const { return true; }
 
  private:
   Spectrum radiance;
-  Vector3D position;
+  Vector2D position;
   
 }; // class PointLight
 
 // Spot Light //
 
+/*
 class SpotLight : public SceneLight {
  public:
   SpotLight(const Spectrum& rad, const Vector3D& pos, 
@@ -76,6 +62,7 @@ class SpotLight : public SceneLight {
   float angle;
 
 }; // class SpotLight
+
 
 // Area Light //
 
@@ -129,6 +116,7 @@ class MeshLight : public SceneLight {
   Spectrum radiance;
 
 }; // class MeshLight
+*/
 
 } // namespace StaticScene
 } // namespace CMU462

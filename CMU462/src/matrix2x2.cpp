@@ -25,7 +25,7 @@ namespace CMU462 {
 
   void Matrix2x2::zero( double val ) {
     // sets all elements to val
-    entries[0] = entries[1] Vector2D( val, val );
+    entries[0] = entries[1] = Vector2D( val, val );
   }
 
   double Matrix2x2::det( void ) const {

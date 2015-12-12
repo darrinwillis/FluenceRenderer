@@ -13,6 +13,15 @@ Vector2D UniformGridSampler2D::get_sample() const {
     return Vector2D(x, y);
 }
 
+Vector2D UniformSemiCircleSampler2D::get_sample() const {
+    double theta = double(std::rand()) / RAND_MAX * 2 * PI;
+    double x, y;
+    x = cos(theta);
+    y = sin(theta);
+
+    return Vector2D(x, y);
+}
+
 // Uniform Hemisphere Sampler3D Implementation //
 
 Vector3D UniformHemisphereSampler3D::get_sample() const {
