@@ -31,7 +31,7 @@
 *.swp
 
 # cscope meta
-src/tags
+*tags
 cscope*
 
 # Build directory
