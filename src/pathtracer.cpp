@@ -31,38 +31,52 @@ namespace CMU462
       cursor_moving_element = false;
    }
 
+    void PathTracer::drawLine(const Spectrum &s,
+                              const Vector2D &start,
+                              const Vector2D &end)
+    {
+        Color c = s.toColor();
+
+        // Draw the line
+        glLineWidth(1.0);
+        glBegin(GL_LINES);
+        glColor4f(c.r, c.g, c.b, 1.0);
+        glVertex2d(start.x, start.y);
+        glVertex2d(end.x, end.y);
+        glEnd();
+    }
+
     // The root of all drawing calls in this project.
     void PathTracer::render()
     {
         enter_2D_GL_draw_mode();
+        glEnable(GL_BLEND);
+        glBlendEquation(GL_FUNC_ADD);
+        glBlendFunc(GL_ONE, GL_ONE);
+
+        std::vector<PointLight> lights;
 
         // For now, let's assume 1 light source
-        PointLight light(Spectrum(5.f, 5.f, 5.f), Vector2D(width/2, height/2));
+        PointLight light(Spectrum(1.f, 0.f, 0.f), Vector2D(width/4, height/2));
+        PointLight light2(Spectrum(0.f, 0.f, 1.f), Vector2D(3*width/4, height/2));
 
-        printf("Drawing %i rays\n", samplesPerLight);
+        lights.push_back(light);
+        lights.push_back(light2);
+
         // Sample n rays
-        for (int ii = 0; ii < samplesPerLight; ii++) {
-            Spectrum s;
-            Vector2D hitPoint;
-            Ray r = light.sampleRay(s);
-            hitPoint = trace_ray(r);
+        for (auto l : lights) {
+            for (int ii = 0; ii < samplesPerLight; ii++) {
+                Spectrum s;
+                Vector2D hitPoint;
+                Ray r = l.sampleRay(s);
+                hitPoint = trace_ray(r);
+                
+                s = s * (1.0 / samplesPerLight) * 100;
 
-            // Draw the line
-            glLineWidth(1.0);
-            glBegin(GL_LINES);
-            glColor3f(0.5, 0.5, 0.5);
-            glVertex2d(r.o.x, r.o.y);
-            glVertex2d(hitPoint.x, hitPoint.y);
-            glEnd();
+                drawLine(s, r.o, hitPoint);
+            }
         }
-        printf("Done drawing rays\n");
 
-        // TODO TODO
-        // Iterate over all light sources
-            // For source sample n rays
-                // Trace the ray to determine intersection
-                // Draw line from source to destination
-         
         // Draw the HUD.
         if(b_HUD)
         {

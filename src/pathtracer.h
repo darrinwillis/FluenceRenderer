@@ -41,7 +41,7 @@ namespace CMU462 {
 
         PathTracer()
         : max_ray_depth(4),
-          samplesPerLight (1000)
+          samplesPerLight (10000)
          {
              bboxTop = new BBox();
          }
@@ -145,6 +145,10 @@ namespace CMU462 {
 						 string str,
 						 size_t size,
 						 Color c);
+
+         void drawLine(const Spectrum &s,
+                                   const Vector2D &start,
+                                   const Vector2D &end);
 
 		 // This variable is use to ensure that when the
                  // cursor is dragging a joint and enters the
