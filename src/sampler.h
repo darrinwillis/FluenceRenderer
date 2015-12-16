@@ -55,10 +55,20 @@ class UniformGridSampler2D : public Sampler2D {
 }; // class UniformSampler2D
 
 
-/**
- * A Sampler2D implementation with uniform distribution on unit circle
+/*
+ * A Sampler2D implementation with uniform distribution on [0,pi]
  */
 class UniformSemiCircleSampler2D : public Sampler2D {
+ public:
+  
+  Vector2D get_sample() const;
+
+}; // class UniformCircleSampler2D
+
+/*
+ * A Sampler2D implementation with uniform distribution on unit circle
+ */
+class UniformCircleSampler2D : public Sampler2D {
  public:
   
   Vector2D get_sample() const;

@@ -34,8 +34,7 @@ class SceneObject {
  */
 class SceneLight {
  public:
-  virtual Spectrum sample_L(const Vector2D& p, Vector2D* wi,
-                            float* distToLight, float* pdf) const = 0;
+  virtual Ray  sampleRay(Spectrum &spectrum) const = 0;
   virtual bool is_delta_light() const = 0;
 
 };

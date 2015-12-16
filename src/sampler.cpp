@@ -17,6 +17,15 @@ Vector2D UniformSemiCircleSampler2D::get_sample() const {
     double theta = double(std::rand()) / RAND_MAX * 2 * PI;
     double x, y;
     x = cos(theta);
+    y = abs(sin(theta));
+
+    return Vector2D(x, y);
+}
+
+Vector2D UniformCircleSampler2D::get_sample() const {
+    double theta = double(std::rand()) / RAND_MAX * 2 * PI;
+    double x, y;
+    x = cos(theta);
     y = sin(theta);
 
     return Vector2D(x, y);

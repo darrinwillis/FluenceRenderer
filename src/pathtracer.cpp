@@ -37,7 +37,26 @@ namespace CMU462
         enter_2D_GL_draw_mode();
 
         // For now, let's assume 1 light source
-        PointLight light(Spectrum(5.f, 5.f, 5.f), Vector2D(0.0, 0.0));
+        PointLight light(Spectrum(5.f, 5.f, 5.f), Vector2D(width/2, height/2));
+
+        printf("Drawing %i rays\n", samplesPerLight);
+        // Sample n rays
+        for (int ii = 0; ii < samplesPerLight; ii++) {
+            Spectrum s;
+            Vector2D hitPoint;
+            Ray r = light.sampleRay(s);
+            hitPoint = trace_ray(r);
+
+            // Draw the line
+            glLineWidth(1.0);
+            glBegin(GL_LINES);
+            glColor3f(0.5, 0.5, 0.5);
+            glVertex2d(r.o.x, r.o.y);
+            glVertex2d(hitPoint.x, hitPoint.y);
+            glEnd();
+        }
+        printf("Done drawing rays\n");
+
         // TODO TODO
         // Iterate over all light sources
             // For source sample n rays
@@ -58,9 +77,16 @@ namespace CMU462
 
         Intersection isect;
 
+        // For now just do a screen intersection
+        double t0, t1;
+        bool bIsect = bboxTop->intersect(r, t0, t1);
+        assert(bIsect);
+
+        return (r.o + t0 * r.d);
+
+        // In the future, accelerate intersction
         if (!bvh->intersect(r, &isect)) {
             // TODO: Do a BBox intersection with this window
-            return Vector2D(0.0, 0.0);
         }
 
         Vector2D hit_p = r.o + r.d * isect.t;
@@ -255,6 +281,8 @@ namespace CMU462
 
       this->width  = width;
       this->height = height;
+      delete this->bboxTop;
+      this->bboxTop = new BBox(Vector2D(0,0), Vector2D(width, height));
 
       text_drawer.resize(width, height);
    }

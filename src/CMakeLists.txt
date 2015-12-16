@@ -7,6 +7,7 @@ set(APPLICATION_SOURCE
     static_scene/light.cpp
 
     sampler.cpp
+    bbox.cpp
     bsdf.cpp
     svg.cpp
     png.cpp

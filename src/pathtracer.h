@@ -41,9 +41,10 @@ namespace CMU462 {
 
         PathTracer()
         : max_ray_depth(4),
-          samplesPerLight (100)
-        {
-        }
+          samplesPerLight (1000)
+         {
+             bboxTop = new BBox();
+         }
 
          // BEGIN interface declaration of base class methods specified in Application.
 
@@ -93,7 +94,9 @@ namespace CMU462 {
          /* cursor position */
          Vector2D cursorPoint;
          BVHAccel* bvh;                 ///< BVH accelerator aggregate
+         BBox *bboxTop;
          Scene* scene;         ///< current scene
+         Sampler2D *circleSampler;
          int samplesPerLight;
          int max_ray_depth;
 

@@ -5,7 +5,7 @@ project(animator)
 # Build options
 #-------------------------------------------------------------------------------
 option(BUILD_LIBCMU462 "Build with libCMU462"         ON)
-option(BUILD_DEBUG     "Build with debug settings"    OFF)
+option(BUILD_DEBUG     "Build with debug settings"    ON)
 option(BUILD_DOCS      "Build documentation"          OFF)
 
 #-------------------------------------------------------------------------------

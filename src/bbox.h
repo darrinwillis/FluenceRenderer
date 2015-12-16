@@ -18,9 +18,9 @@ namespace CMU462 {
  */
 struct BBox {
 
-  Vector3D max;	    ///< min corner of the bounding box
-  Vector3D min;	    ///< max corner of the bounding box
-  Vector3D extent;  ///< extent of the bounding box (min -> max)
+  Vector2D max;	    ///< min corner of the bounding box
+  Vector2D min;	    ///< max corner of the bounding box
+  Vector2D extent;  ///< extent of the bounding box (min -> max)
 
   /**
    * Constructor.
@@ -28,8 +28,8 @@ struct BBox {
    * points.
    */
   BBox() {
-    max = Vector3D(-INF_D, -INF_D, -INF_D);
-    min = Vector3D( INF_D,  INF_D,  INF_D);
+    max = Vector2D(-INF_D, -INF_D);
+    min = Vector2D( INF_D,  INF_D);
     extent = max - min;
   }
 
@@ -37,7 +37,7 @@ struct BBox {
    * Constructor.
    * Creates a bounding box that includes a single point.
    */
-  BBox(const Vector3D& p) : min(p), max(p) { extent = max - min; }
+  BBox(const Vector2D& p) : min(p), max(p) { extent = max - min; }
 
   /**
    * Constructor.
@@ -45,17 +45,17 @@ struct BBox {
    * \param min the min corner
    * \param max the max corner
    */
-  BBox(const Vector3D& min, const Vector3D& max) :
+  BBox(const Vector2D& min, const Vector2D& max) :
        min(min), max(max) { extent = max - min; }
 
   /**
    * Constructor.
    * Creates a bounding box with given bounds (component wise).
    */
-  BBox(const double minX, const double minY, const double minZ,
-       const double maxX, const double maxY, const double maxZ) {
-    min = Vector3D(minX, minY, minZ);
-    max = Vector3D(maxX, maxY, maxZ);
+  BBox(const double minX, const double minY,
+       const double maxX, const double maxY) {
+    min = Vector2D(minX, minY);
+    max = Vector2D(maxX, maxY);
 		extent = max - min;
   }
 
@@ -69,10 +69,8 @@ struct BBox {
   void expand(const BBox& bbox) {
     min.x = std::min(min.x, bbox.min.x);
     min.y = std::min(min.y, bbox.min.y);
-    min.z = std::min(min.z, bbox.min.z);
     max.x = std::max(max.x, bbox.max.x);
     max.y = std::max(max.y, bbox.max.y);
-    max.z = std::max(max.z, bbox.max.z);
     extent = max - min;
   }
 
@@ -83,17 +81,15 @@ struct BBox {
    * point.
    * \param p the point to be included
    */
-  void expand(const Vector3D& p) {
+  void expand(const Vector2D& p) {
     min.x = std::min(min.x, p.x);
     min.y = std::min(min.y, p.y);
-    min.z = std::min(min.z, p.z);
     max.x = std::max(max.x, p.x);
     max.y = std::max(max.y, p.y);
-    max.z = std::max(max.z, p.z);
     extent = max - min;
   }
 
-  Vector3D centroid() const {
+  Vector2D centroid() const {
     return (min + max) / 2;
   }
 
@@ -101,11 +97,9 @@ struct BBox {
    * Compute the surface area of the bounding box.
    * \return surface area of the bounding box.
    */
-  double surface_area() const {
+  double perimeter() const {
     if (empty()) return 0.0;
-    return 2 * (extent.x * extent.z +
-                extent.x * extent.y +
-                extent.y * extent.z);
+    return 2 * (extent.x + extent.y);
   }
 
   /**
@@ -116,7 +110,7 @@ struct BBox {
    * empty.
    */
   bool empty() const {
-    return min.x > max.x || min.y > max.y || min.z > max.z;
+    return min.x > max.x || min.y > max.y;
   }
 
   /**

@@ -46,16 +46,14 @@ Spectrum InfiniteHemisphereLight::sample_L(const Vector3D& p, Vector3D* wi,
 // Point Light //
 
 PointLight::PointLight(const Spectrum& rad, const Vector2D& pos) : 
-  radiance(rad), position(pos) { }
+  radiance(rad), position(pos) {
+      circleSampler = new UniformCircleSampler2D();
+  }
 
-Spectrum PointLight::sample_L(const Vector2D& p, Vector2D* wi,
-                             float* distToLight,
-                             float* pdf) const {
-  Vector2D d = position - p;
-  *wi = d.unit();
-  *distToLight = d.norm();
-  *pdf = 1.0;
-  return radiance;
+
+Ray PointLight::sampleRay(Spectrum &spectrum) const {
+    spectrum = radiance;
+    return Ray(position, circleSampler->get_sample());
 }
 
     /*

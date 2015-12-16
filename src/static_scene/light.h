@@ -34,13 +34,13 @@ class DirectionalLight : public SceneLight {
 class PointLight : public SceneLight {
  public: 
   PointLight(const Spectrum& rad, const Vector2D& pos);
-  Spectrum sample_L(const Vector2D& p, Vector2D* wi, float* distToLight,
-                    float* pdf) const;
+  Ray sampleRay(Spectrum &spectrum) const;
   bool is_delta_light() const { return true; }
 
  private:
   Spectrum radiance;
   Vector2D position;
+  Sampler2D *circleSampler; 
   
 }; // class PointLight
 
