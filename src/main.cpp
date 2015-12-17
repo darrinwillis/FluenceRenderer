@@ -89,17 +89,19 @@ int main( int argc, char** argv ) {
   Viewer viewer = Viewer();
 
   // create the animation editor.
-  PathTracer * animation_editor = new PathTracer();
+  PathTracer * pathTracer = new PathTracer();
 
   // set the animation to be the application.
-  viewer.set_application(animation_editor);
+  viewer.set_application(pathTracer);
 
+  /*
   // load tests
   if( argc == 2 ) {
-    if (loadPath(animation_editor, argv[1]) < 0) exit(0);
+    if (loadPath(pathTracer, argv[1]) < 0) exit(0);
   } else {
     msg("Usage: ./animator <path to test file or directory>"); exit(0);
   }
+  */
 
   // init viewer
   viewer.init();

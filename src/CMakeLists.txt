@@ -46,9 +46,9 @@ link_directories(
 #-------------------------------------------------------------------------------
 # Add executable
 #-------------------------------------------------------------------------------
-add_executable(animator ${APPLICATION_SOURCE})
+add_executable(pathtracer ${APPLICATION_SOURCE})
 
-target_link_libraries( animator
+target_link_libraries( pathtracer
     CMU462 ${CMU462_LIBRARIES}
     glew ${GLEW_LIBRARIES}
     glfw ${GLFW_LIBRARIES}
@@ -61,7 +61,7 @@ target_link_libraries( animator
 # Platform-specific configurations for target
 #-------------------------------------------------------------------------------
 if(APPLE)
-  set_property( TARGET animator APPEND_STRING PROPERTY COMPILE_FLAGS
+  set_property( TARGET pathtracer APPEND_STRING PROPERTY COMPILE_FLAGS
                 "-Wno-deprecated-declarations -Wno-c++11-extensions")
 endif(APPLE)
 
@@ -69,4 +69,4 @@ endif(APPLE)
 set(EXECUTABLE_OUTPUT_PATH ..)
 
 # Install to project root
-install(TARGETS animator DESTINATION ${animator_SOURCE_DIR})
+install(TARGETS pathtracer DESTINATION ${pathtracer_SOURCE_DIR})
