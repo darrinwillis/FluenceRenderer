@@ -10,6 +10,7 @@
 #include "assert.h"
 
 #include "static_scene/light.h"
+#include "static_scene/circle.h"
 
 using namespace CMU462::StaticScene;
 using namespace std;
@@ -25,11 +26,34 @@ namespace CMU462
       return "";
    }
 
-   void PathTracer::init() {
-      text_drawer.init(use_hdpi);
-      b_HUD = true;
-      cursor_moving_element = false;
-   }
+    void PathTracer::init() {
+        text_drawer.init(use_hdpi);
+        b_HUD = true;
+        cursor_moving_element = false;
+        
+        std::vector<SceneLight *> lights;
+        std::vector<SceneObject *> objects;
+
+        // Set up the scene primitives
+        BSDF *bsdf = new DiffuseBSDF(Spectrum(0.f, 1.f, 0.f));
+        CircleObject *obj = new CircleObject(Vector2D(width/2, height/4),
+                                             20.0,
+                                             bsdf);
+        
+        PointLight *light = new PointLight(Spectrum(1.f, 0.f, 0.f),
+                                           Vector2D(width/4, height/2));
+
+        PointLight *light2 = new PointLight(Spectrum(1.f, 0.f, 0.f),
+                                            Vector2D(width/4, height/2));
+        
+        // For now, let's assume 1 light source
+        lights.push_back(light);
+        lights.push_back(light2);
+
+        objects.push_back(obj);
+ 
+        scene = new Scene(objects, lights);
+    }
 
     void PathTracer::drawLine(const Spectrum &s,
                               const Vector2D &start,
@@ -54,21 +78,13 @@ namespace CMU462
         glBlendEquation(GL_FUNC_ADD);
         glBlendFunc(GL_ONE, GL_ONE);
 
-        std::vector<PointLight> lights;
-
-        // For now, let's assume 1 light source
-        PointLight light(Spectrum(1.f, 0.f, 0.f), Vector2D(width/4, height/2));
-        PointLight light2(Spectrum(0.f, 0.f, 1.f), Vector2D(3*width/4, height/2));
-
-        lights.push_back(light);
-        lights.push_back(light2);
 
         // Sample n rays
-        for (auto l : lights) {
+        for (auto l : scene->lights) {
             for (int ii = 0; ii < samplesPerLight; ii++) {
                 Spectrum s;
                 Vector2D hitPoint;
-                Ray r = l.sampleRay(s);
+                Ray r = l->sampleRay(s);
                 hitPoint = trace_ray(r);
                 
                 s = s * (1.0 / samplesPerLight) * 100;

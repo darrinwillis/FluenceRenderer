@@ -5,6 +5,8 @@ set(APPLICATION_SOURCE
 
     # Static scene
     static_scene/light.cpp
+    static_scene/circle.cpp
+    static_scene/object.cpp
 
     sampler.cpp
     bbox.cpp

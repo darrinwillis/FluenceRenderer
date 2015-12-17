@@ -1,17 +1,18 @@
-#include "sphere.h"
+#include "circle.h"
 
 #include <cmath>
 #include <assert.h>
 
 #include  "../bsdf.h"
-#include "../misc/sphere_drawing.h"
+
+using namespace std;
 
 namespace CMU462 { namespace StaticScene {
 
-bool Sphere::test(const Ray& r, double& t1, double& t2) const {
+bool Circle::test(const Ray& r, double& t1, double& t2) const {
     // Return true if there are intersections and writing the
     // smaller of the two intersection times in t1 and the larger in t2.
-    Vector3D centerMinusO = r.o - o;
+    Vector2D centerMinusO = r.o - o;
     double oDotD = dot(centerMinusO, r.d);
     double term2 = oDotD * oDotD - centerMinusO.norm2() + r2;
 
@@ -28,7 +29,7 @@ bool Sphere::test(const Ray& r, double& t1, double& t2) const {
 
 }
 
-bool Sphere::intersect(const Ray& r) const {
+bool Circle::intersect(const Ray& r) const {
     double t1, t2;
 
     if (test(r, t1, t2)) {
@@ -45,7 +46,7 @@ bool Sphere::intersect(const Ray& r) const {
 
 }
 
-bool Sphere::intersect(const Ray& r, Intersection *i) const {
+bool Circle::intersect(const Ray& r, Intersection *i) const {
     double t1, t2;
 
     if (test(r, t1, t2)) {
@@ -53,7 +54,7 @@ bool Sphere::intersect(const Ray& r, Intersection *i) const {
 
         if (r.min_t < minT &&
             r.max_t > minT) {
-            Vector3D normVec;
+            Vector2D normVec;
             // Intersection point minus sphere center
             normVec = r.o + minT * r.d - o;
             normVec.normalize();
@@ -69,11 +70,11 @@ bool Sphere::intersect(const Ray& r, Intersection *i) const {
 
 }
 
-void Sphere::draw(const Color& c) const {
-  Misc::draw_sphere_opengl(o, r, c);
+void Circle::draw(const Color& c) const {
+  //Misc::draw_sphere_opengl(o, r, c);
 }
 
-void Sphere::drawOutline(const Color& c) const {
+void Circle::drawOutline(const Color& c) const {
     //Misc::draw_sphere_opengl(o, r, c);
 }
 

@@ -68,3 +68,4 @@ class Primitive {
 } // namespace CMU462
 
 #endif //CMU462_STATICSCENE_PRIMITIVE_H
+

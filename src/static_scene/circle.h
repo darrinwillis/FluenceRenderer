@@ -13,14 +13,14 @@ namespace CMU462 { namespace StaticScene {
  * radius. The sphere primitive may refer back to the sphere object for
  * other information such as surface material.
  */
-class Sphere : public Primitive {
+class Circle : public Primitive {
  public:
 
   /**
    * Parameterized Constructor.
    * Construct a sphere with given origin & radius.
    */
-  Sphere(const SphereObject* object, const Vector3D& o, double r)
+  Circle(const CircleObject* object, const Vector2D& o, double r)
     : object(object), o(o), r(r), r2(r*r) { }
 
   /**
@@ -28,11 +28,11 @@ class Sphere : public Primitive {
    * \return world space bounding box of the sphere
    */
   BBox get_bbox() const {
-    return BBox(o - Vector3D(r,r,r), o + Vector3D(r,r,r));
+    return BBox(o - Vector2D(r,r), o + Vector2D(r,r));
   }
 
   /**
-   * Ray - Sphere intersection.
+   * Ray - Circle intersection.
    * Check if the given ray intersects with the sphere, no intersection
    * information is stored.
    * \param r ray to test intersection with
@@ -42,7 +42,7 @@ class Sphere : public Primitive {
   bool intersect(const Ray& r) const;
 
   /**
-   * Ray - Sphere intersection 2.
+   * Ray - Circle intersection 2.
    * Check if the given ray intersects with the sphere, if so, the input
    * intersection data is updated to contain intersection information for the
    * point of intersection.
@@ -68,7 +68,7 @@ class Sphere : public Primitive {
    *          intersection and does not check if it's actually on the sphere
    * \return normal at the given point of intersection
    */
-  Vector3D normal(Vector3D p) const {
+  Vector2D normal(Vector2D p) const {
     return (p - o).unit();
   }
 
@@ -91,13 +91,13 @@ class Sphere : public Primitive {
    */
   bool test(const Ray& ray, double& t1, double& t2) const;
 
-  const SphereObject* object; ///< pointer to the sphere object
+  const CircleObject* object; ///< pointer to the sphere object
 
-  Vector3D o; ///< origin of the sphere
+  Vector2D o; ///< origin of the sphere
   double r;   ///< radius
   double r2;  ///< radius squared
 
-}; // class Sphere
+}; // class Circle
 
 } // namespace StaticScene
 } // namespace CMU462
