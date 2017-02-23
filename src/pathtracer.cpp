@@ -30,7 +30,7 @@ namespace CMU462
         text_drawer.init(use_hdpi);
         b_HUD = true;
         cursor_moving_element = false;
-        
+
         std::vector<SceneLight *> lights;
         std::vector<SceneObject *> objects;
 
@@ -39,19 +39,19 @@ namespace CMU462
         CircleObject *obj = new CircleObject(Vector2D(width/2, height/4),
                                              20.0,
                                              bsdf);
-        
+
         PointLight *light = new PointLight(Spectrum(1.f, 0.f, 0.f),
                                            Vector2D(width/4, height/2));
 
         PointLight *light2 = new PointLight(Spectrum(1.f, 0.f, 0.f),
                                             Vector2D(width/4, height/2));
-        
+
         // For now, let's assume 1 light source
         lights.push_back(light);
         lights.push_back(light2);
 
         objects.push_back(obj);
- 
+
         scene = new Scene(objects, lights);
     }
 
@@ -86,7 +86,7 @@ namespace CMU462
                 Vector2D hitPoint;
                 Ray r = l->sampleRay(s);
                 hitPoint = trace_ray(r);
-                
+
                 s = s * (1.0 / samplesPerLight) * 100;
 
                 drawLine(s, r.o, hitPoint);
